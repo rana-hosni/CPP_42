@@ -17,6 +17,9 @@ class Contact
         std::string getInput(const std::string prompt);
         static std::string truncateField(std::string field);
         static bool isValidInput(std::string &input);
+        static bool isEmpty(std::string field);
+        static bool isValidNumber(std::string input);
+        
 
         
     public:

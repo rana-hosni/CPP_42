@@ -10,6 +10,30 @@ Contact::~Contact()
     return;
 }
 
+bool Contact::isEmpty(std::string field)
+{
+    for (size_t i = 0; i < field.length(); i++)
+    {
+        if (!isspace(static_cast<unsigned char>(field[i])))
+            return false;
+    }
+    return true;
+}
+
+bool Contact::isValidNumber(std::string input)
+{
+    for (size_t i = 0; i < input.length(); i++)
+    {
+        if (i == 0 && (input[i] == '+'))
+            continue;
+        if (!isdigit(static_cast<unsigned char>(input[i])))
+        {
+            std::cout << "Invalid character detected: '" << input[i] << "'. Please enter only numeric characters." << std::endl;
+            return false;
+        }
+    }
+    return true;
+}
 
 std::string Contact::truncateField(std::string field)
 {
@@ -35,6 +59,8 @@ void Contact::displayContacts(Contact contacts[8], int index)
         std::cout << "--------------------------------------------------" << std::endl;
         for (int i = 0; i < 8; i++)
         {
+            if (contacts[i].firstName.empty())
+                break;
             std::cout << std::setw(10) << i
                     << " | " << std::setw(10) << truncateField(contacts[i].firstName)
                     << " | " << std::setw(10) << truncateField(contacts[i].lastName)
@@ -62,42 +88,22 @@ void Contact::displayContacts(Contact contacts[8], int index)
 
 bool Contact::isValidInput(std::string &input)
 {
-    // size_t found;
-    // std::string markWord = "Phone";
 
-    if (input.empty())
+    if (input.empty() || isEmpty(input))
     {
         std::cout << "Input cannot be empty." << std::endl;
         return false;
     }
-    // found = input.find(markWord);
-    // std::cout << "Debug: found = " << found << std::endl; // Debugging line
-    // if (found != std::string::npos)
-    // {
-        for (size_t i = 0; i < input.length(); i++)
+    for (size_t i = 0; i < input.length(); i++)
+    {
+        if (!isalnum(static_cast<unsigned char>(input[i])) 
+        && !isspace(static_cast<unsigned char>(input[i])) 
+        && input[i] != '-' && input[i] != '_' && input[i] != '.')
         {
-            if (!isalnum(static_cast<unsigned char>(input[i])) 
-            && !isspace(static_cast<unsigned char>(input[i])) 
-            && input[i] != '-' && input[i] != '_' && input[i] != '.')
-            {
-                std::cout << "Invalid character detected: '" << input[i] << "'. Please use only alphanumeric characters, spaces, hyphens, underscores, or periods." << std::endl;
-                return false;
-            }
+            std::cout << "Invalid character detected: '" << input[i] << "'. Please use only alphanumeric characters, spaces, hyphens, underscores, or periods." << std::endl;
+            return false;
         }
-    // }
-    // else
-    // {
-    //     for (size_t i = 0; i < input.length(); i++)
-    //     {
-    //         if (i == 0 && (input[i] == '+'))
-    //             continue;
-    //         if (!isdigit(static_cast<unsigned char>(input[i])))
-    //         {
-    //             std::cout << "Invalid character detected: '" << input[i] << "'. Please enter only numeric characters." << std::endl;
-    //             return false;
-    //         }
-    //     }
-    // }
+    }
     return true;
 }
 
@@ -107,7 +113,7 @@ std::string Contact::getInput(const std::string prompt)
     size_t found;
     std::string markWord = "Phone";
 
-    found = input.find(markWord);
+    found = prompt.find(markWord);
     
     while (true)
     {
@@ -118,21 +124,12 @@ std::string Contact::getInput(const std::string prompt)
             std::cout << "\nEnd of input detected. Exiting the program." << std::endl;
             std::exit(1);
         }
-        if (found == std::string::npos)
+        if (found != std::string::npos && !input.empty() && !isEmpty(input))
         {
-            for (size_t i = 0; i < input.length(); i++)
-            {
-                if (i == 0 && (input[i] == '+'))
-                    continue;
-                if (!isdigit(static_cast<unsigned char>(input[i])))
-                {
-                    std::cout << "Invalid character detected: '" << input[i] << "'. Please enter only numeric characters." << std::endl;
-                    input.clear();
-                    break;
-                }
-            }
+            if (isValidNumber(input))
+                return input;
         }
-        if (isValidInput(input))
+        else if (isValidInput(input))
             return input;
     }
     return input;
@@ -140,9 +137,24 @@ std::string Contact::getInput(const std::string prompt)
 
 void Contact::fillContact(Contact& contact)
 {
-    contact.firstName = contact.getInput("Enter First Name: ");
-    contact.lastName = contact.getInput("Enter Last Name: ");
-    contact.nickname = contact.getInput("Enter Nickname: ");
-    contact.phoneNumber = contact.getInput("Enter Phone Number: ");
-    contact.darkestSecret = contact.getInput("Enter Darkest Secret: ");
+    std::string tempFirstName;
+    std::string tempLastName;
+    std::string tempNickname;
+    std::string tempPhoneNumber;
+    std::string tempDarkestSecret;
+
+    tempFirstName = contact.getInput("Enter First Name: ");
+    tempLastName = contact.getInput("Enter Last Name: ");
+    tempNickname = contact.getInput("Enter Nickname: ");
+    tempPhoneNumber = contact.getInput("Enter Phone Number: ");
+    tempDarkestSecret = contact.getInput("Enter Darkest Secret: ");
+    
+    if (!tempFirstName.empty() && !tempLastName.empty() && !tempNickname.empty() && !tempPhoneNumber.empty() && !tempDarkestSecret.empty())
+    {
+        contact.firstName = tempFirstName;
+        contact.lastName = tempLastName;
+        contact.nickname = tempNickname;
+        contact.phoneNumber = tempPhoneNumber;
+        contact.darkestSecret = tempDarkestSecret;
+    }
 }
