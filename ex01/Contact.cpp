@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Contact.cpp                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: relgheit <relgheit@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/13 10:21:34 by relgheit          #+#    #+#             */
+/*   Updated: 2025/10/13 10:22:36 by relgheit         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Contact.hpp"
 
 Contact::Contact()
@@ -44,45 +56,6 @@ std::string Contact::truncateField(std::string field)
         return truncated;
     }
     return field;
-}
-
-void Contact::displayContacts(Contact contacts[8], int index)
-{
-    std::cout << "Displaying contacts..." << std::endl;
-
-    if (index == -1)
-    {
-        std::cout << std::setw(10) << truncateField("Index") << " | "
-                  << std::setw(10) << truncateField("First Name") << " | "
-                  << std::setw(10) << truncateField("Last Name") << " | "
-                  << std::setw(10) << truncateField("Nickname") << std::endl;
-        std::cout << "--------------------------------------------------" << std::endl;
-        for (int i = 0; i < 8; i++)
-        {
-            if (contacts[i].firstName.empty())
-                break;
-            std::cout << std::setw(10) << i
-                    << " | " << std::setw(10) << truncateField(contacts[i].firstName)
-                    << " | " << std::setw(10) << truncateField(contacts[i].lastName)
-                    << " | " << std::setw(10) << truncateField(contacts[i].nickname) << std::endl;
-        }
-    }
-    else if (index >= 0 && index < 8)
-    {
-        if (contacts[index].firstName.empty())
-        {
-            std::cout << "No contact found at index " << index << "." << std::endl;
-            return;
-        }
-        std::cout << "First Name: " << truncateField(contacts[index].firstName) << std::endl;
-        std::cout << "Last Name: " << truncateField(contacts[index].lastName) << std::endl;
-        std::cout << "Nickname: " << truncateField(contacts[index].nickname) << std::endl;
-        std::cout << "Phone Number: " << truncateField(contacts[index].phoneNumber) << std::endl;
-    }
-    else
-    {
-        std::cout << "Invalid index or contact does not exist." << std::endl;
-    }
 }
 
 
@@ -135,6 +108,45 @@ std::string Contact::getInput(const std::string prompt)
     return input;
 }
 
+void Contact::displayContacts(Contact contacts[8], int index)
+{
+    std::cout << "Displaying contacts..." << std::endl;
+
+    if (index == -1)
+    {
+        std::cout << std::setw(10) << truncateField("Index") << " | "
+                  << std::setw(10) << truncateField("First Name") << " | "
+                  << std::setw(10) << truncateField("Last Name") << " | "
+                  << std::setw(10) << truncateField("Nickname") << std::endl;
+        std::cout << "--------------------------------------------------" << std::endl;
+        for (int i = 0; i < 8; i++)
+        {
+            if (contacts[i].firstName.empty())
+                break;
+            std::cout << std::setw(10) << i
+                    << " | " << std::setw(10) << truncateField(contacts[i].firstName)
+                    << " | " << std::setw(10) << truncateField(contacts[i].lastName)
+                    << " | " << std::setw(10) << truncateField(contacts[i].nickname) << std::endl;
+        }
+    }
+    else if (index >= 0 && index < 8)
+    {
+        if (contacts[index].firstName.empty())
+        {
+            std::cout << "No contact found at index " << index << "." << std::endl;
+            return;
+        }
+        std::cout << "First Name: " << truncateField(contacts[index].firstName) << std::endl;
+        std::cout << "Last Name: " << truncateField(contacts[index].lastName) << std::endl;
+        std::cout << "Nickname: " << truncateField(contacts[index].nickname) << std::endl;
+        std::cout << "Phone Number: " << truncateField(contacts[index].phoneNumber) << std::endl;
+    }
+    else
+    {
+        std::cout << "Invalid index or contact does not exist." << std::endl;
+    }
+}
+
 void Contact::fillContact(Contact& contact)
 {
     std::string tempFirstName;
@@ -148,7 +160,7 @@ void Contact::fillContact(Contact& contact)
     tempNickname = contact.getInput("Enter Nickname: ");
     tempPhoneNumber = contact.getInput("Enter Phone Number: ");
     tempDarkestSecret = contact.getInput("Enter Darkest Secret: ");
-    
+
     if (!tempFirstName.empty() && !tempLastName.empty() && !tempNickname.empty() && !tempPhoneNumber.empty() && !tempDarkestSecret.empty())
     {
         contact.firstName = tempFirstName;
