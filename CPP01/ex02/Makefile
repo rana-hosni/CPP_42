@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror -std=c++98
 SRCS = main.cpp
 
 OBJS = $(SRCS:.cpp=.o)
-NAME = HI_THIS_IS_BRAIN
+NAME = ex02
 
 all: $(NAME)
 

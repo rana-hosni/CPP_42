@@ -1,10 +1,13 @@
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRCS = main.cpp
+SRCS = main.cpp\
+Weapon.cpp\
+HumanA.cpp\
+HumanB.cpp
 
 OBJS = $(SRCS:.cpp=.o)
-NAME = HI_THIS_IS_BRAIN
+NAME = ex03
 
 all: $(NAME)
 
