@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Harl.hpp                                           :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: relgheit <relgheit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/03 16:06:10 by relgheit          #+#    #+#             */
-/*   Updated: 2025/11/04 14:44:04 by relgheit         ###   ########.fr       */
+/*   Created: 2025/11/03 16:05:32 by relgheit          #+#    #+#             */
+/*   Updated: 2025/11/04 15:18:06 by relgheit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HARL_HPP
-#define HARL_HPP
+#include "Harl.hpp"
 
-#include <iostream>
-#include <string>
-#include <sstream>
-
-class Harl
+int main(int argc, char **argv)
 {
-    public:
-        Harl();
-        ~Harl();
-        void complain( std::string level );
-
-    private:
-        void debug();
-        void info();
-        void warning();
-        void error();
-        
-};
-
-#endif
+    Harl harl;
+    std::string mood;
+    if (argc != 2)
+    {
+        std::cout << "use only one argument" << std::endl;
+        return 1;
+    }
+    else
+        mood = argv[1];
+    harl.complain(mood);
+    return 0;
+}

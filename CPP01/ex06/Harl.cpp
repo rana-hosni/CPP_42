@@ -6,7 +6,7 @@
 /*   By: relgheit <relgheit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 16:05:48 by relgheit          #+#    #+#             */
-/*   Updated: 2025/11/04 14:43:35 by relgheit         ###   ########.fr       */
+/*   Updated: 2025/11/04 15:18:48 by relgheit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,40 @@ Harl::~Harl()
 {
 }
 
+int Harl::filterLevel(std::string level)
+{
+    std::string levels[4] = {"DEBUG", "INFO", "WARNING", "ERROR"};
+    for (int i = 0; i < 4; i++)
+    {
+        if (level == levels[i])
+            return i;
+    }
+    return -1;
+}
+
 void Harl::complain( std::string level )
 {
-    std::string list[4] = {"DEBUG", "INFO", "WARNING", "ERROR"};
     void (Harl::*functions[4])() = {&Harl::debug,
         &Harl::info,
         &Harl::warning,
         &Harl::error};
+
+    int levelIndex = filterLevel(level);
     
-    for (int i = 0; i < 4; i++)
+    switch (levelIndex)
     {
-        if (level == list[i])
-        {
-            (this->*functions[i])();
-            return;
-        }
+    case 0:
+        (this->*functions[0])();
+    case 1:
+        (this->*functions[1])();
+    case 2:
+        (this->*functions[2])();
+    case 3:
+        (this->*functions[3])();
+        break;
+    
+    default:
+        std::cout << "[ Probably complaining about insignificant problems ]" << std::endl;
     }
     
 }
