@@ -5,24 +5,26 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: relgheit <relgheit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/03 16:05:32 by relgheit          #+#    #+#             */
-/*   Updated: 2025/11/06 11:55:09 by relgheit         ###   ########.fr       */
+/*   Created: 2025/11/07 13:15:44 by relgheit          #+#    #+#             */
+/*   Updated: 2025/11/07 13:15:51 by relgheit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Harl.hpp"
+#include "Fixed.hpp"
 
-int main(int argc, char **argv)
-{
-    Harl harl;
-    std::string mood;
-    if (argc != 2)
-    {
-        std::cout << "use one argument" << std::endl;
-        return 1;
-    }
-    else
-        mood = argv[1];
-    harl.complain(mood);
-    return 0;
+int main( void ) {
+Fixed a;
+Fixed const b( 10 );
+Fixed const c( 42.42f );
+Fixed const d( b );
+a = Fixed( 1234.4321f );
+std::cout << "a is " << a << std::endl;
+std::cout << "b is " << b << std::endl;
+std::cout << "c is " << c << std::endl;
+std::cout << "d is " << d << std::endl;
+std::cout << "a is " << a.toInt() << " as integer" << std::endl;
+std::cout << "b is " << b.toInt() << " as integer" << std::endl;
+std::cout << "c is " << c.toInt() << " as integer" << std::endl;
+std::cout << "d is " << d.toInt() << " as integer" << std::endl;
+return 0;
 }

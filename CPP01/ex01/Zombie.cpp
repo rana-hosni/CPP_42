@@ -6,7 +6,7 @@
 /*   By: relgheit <relgheit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 15:10:14 by relgheit          #+#    #+#             */
-/*   Updated: 2025/10/29 17:30:29 by relgheit         ###   ########.fr       */
+/*   Updated: 2025/11/06 11:18:42 by relgheit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void Zombie::setName(std::string name)
 
 Zombie::Zombie()
 {
-    
+    std::cout << "A zombie is created without a name." <<  std::endl;
 }
 
 Zombie::~Zombie()

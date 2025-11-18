@@ -6,7 +6,7 @@
 /*   By: relgheit <relgheit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 16:22:08 by relgheit          #+#    #+#             */
-/*   Updated: 2025/11/03 16:01:29 by relgheit         ###   ########.fr       */
+/*   Updated: 2025/11/06 11:28:03 by relgheit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ void File::replaceContent(const std::string& s1, const std::string& s2)
         return;
     std::ifstream inputFile(_fileName.c_str());
     std::string content;
-    std::ofstream outputFile(_fileName + ".replace", std::ios::app);
+    std::string oFile;
+    oFile = _fileName + ".replace";
+    std::ofstream outputFile(oFile.c_str(), std::ios::app);
     while (std::getline(inputFile, content))
     {
         size_t pos = 0;

@@ -2,10 +2,10 @@ CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
 SRCS = main.cpp\
-	Harl.cpp
+Fixed.cpp
 
 OBJS = $(SRCS:.cpp=.o)
-NAME = harlFilter
+NAME = ex00
 
 all: $(NAME)
 

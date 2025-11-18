@@ -5,24 +5,25 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: relgheit <relgheit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/03 16:05:32 by relgheit          #+#    #+#             */
-/*   Updated: 2025/11/06 11:55:09 by relgheit         ###   ########.fr       */
+/*   Created: 2025/11/07 13:15:44 by relgheit          #+#    #+#             */
+/*   Updated: 2025/11/07 16:21:32 by relgheit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Harl.hpp"
+#include "Fixed.hpp"
 
-int main(int argc, char **argv)
-{
-    Harl harl;
-    std::string mood;
-    if (argc != 2)
-    {
-        std::cout << "use one argument" << std::endl;
-        return 1;
-    }
-    else
-        mood = argv[1];
-    harl.complain(mood);
-    return 0;
+int main( void ) {
+Fixed a;
+Fixed const b( Fixed( 5.05f ) * Fixed( 2 ) );
+std::cout << a << std::endl;
+std::cout << ++a << std::endl;
+std::cout << a++ << std::endl;
+std::cout << --a << std::endl;
+std::cout << a << std::endl;
+std::cout << a++ << std::endl;
+std::cout << a << std::endl;
+std::cout << b << std::endl;
+std::cout << Fixed::max( a, b ) << std::endl;
+std::cout << Fixed::min( a, b ) << std::endl;
+return 0;
 }

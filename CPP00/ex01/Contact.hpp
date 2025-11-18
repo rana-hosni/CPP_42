@@ -14,19 +14,19 @@ class Contact
         std::string nickname;
         std::string phoneNumber;
         std::string darkestSecret;
-        std::string getInput(const std::string prompt);
-        static std::string truncateField(std::string field);
-        static bool isValidInput(std::string &input);
-        static bool isEmpty(std::string field);
-        static bool isValidNumber(std::string input);
-        
+        std::string GetInput(const std::string prompt);
+        static std::string TruncateField(std::string field);
+        static bool IsValidInput(std::string &input);
+        static bool IsEmpty(std::string field);
+        static bool IsValidNumber(std::string input);
+
 
         
     public:
         Contact();
         ~Contact();
-        static void fillContact(Contact& contact);
-        static void displayContacts(Contact contacts[], int index);
+        static void FillContact(Contact& contact);
+        static void DisplayContacts(Contact contacts[8], int index);
 
     // Class members and methods go here
 };

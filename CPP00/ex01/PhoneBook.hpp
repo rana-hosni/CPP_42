@@ -11,16 +11,15 @@ class  PhoneBook
 {
      private:
      int currentIndex;
-     void add(void);
-     void search(void);
-     void exit(void);
-     
-     
+     void Add(void);
+     void Search(void);
+
+
      public:
           PhoneBook();
           ~PhoneBook();
           Contact contacts[8];
-          int run(void);
+          int Run(void);
 };
 
 #endif

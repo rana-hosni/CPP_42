@@ -1,24 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Fixed.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: relgheit <relgheit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/01 12:13:33 by relgheit          #+#    #+#             */
-/*   Updated: 2025/10/09 12:01:17 by relgheit         ###   ########.fr       */
+/*   Created: 2025/11/05 16:27:48 by relgheit          #+#    #+#             */
+/*   Updated: 2025/11/07 10:51:26 by relgheit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "PhoneBook.hpp"
-#include "Contact.hpp"
+#ifndef FIXED_HPP
+#define FIXED_HPP
 
-using namespace std;
+#include <iostream>
 
-int main ()
+class Fixed
 {
-    PhoneBook phoneBook;
+    private:
+        int _fixedPointValue;
+        static const int _fractionalBits = 8;
 
-    phoneBook.run();
-    return (0);
-}
+    public:
+        Fixed();
+        ~Fixed();
+        Fixed(const Fixed &copy);
+        Fixed &operator=(const Fixed &other);
+        
+        int getRawBits( void ) const;
+        void setRawBits( int const raw );
+};
+
+#endif

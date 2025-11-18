@@ -6,7 +6,7 @@
 /*   By: relgheit <relgheit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 10:21:34 by relgheit          #+#    #+#             */
-/*   Updated: 2025/10/13 10:22:36 by relgheit         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:45:55 by relgheit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ Contact::~Contact()
 {
     return;
 }
-
-bool Contact::isEmpty(std::string field)
+    
+bool Contact::IsEmpty(std::string field)
 {
     for (size_t i = 0; i < field.length(); i++)
     {
@@ -32,7 +32,7 @@ bool Contact::isEmpty(std::string field)
     return true;
 }
 
-bool Contact::isValidNumber(std::string input)
+bool Contact::IsValidNumber(std::string input)
 {
     for (size_t i = 0; i < input.length(); i++)
     {
@@ -47,7 +47,7 @@ bool Contact::isValidNumber(std::string input)
     return true;
 }
 
-std::string Contact::truncateField(std::string field)
+std::string Contact::TruncateField(std::string field)
 {
     std::string truncated = field;
     if (field.length() > 10)
@@ -59,10 +59,10 @@ std::string Contact::truncateField(std::string field)
 }
 
 
-bool Contact::isValidInput(std::string &input)
+bool Contact::IsValidInput(std::string &input)
 {
 
-    if (input.empty() || isEmpty(input))
+    if (input.empty() || IsEmpty(input))
     {
         std::cout << "Input cannot be empty." << std::endl;
         return false;
@@ -80,7 +80,7 @@ bool Contact::isValidInput(std::string &input)
     return true;
 }
 
-std::string Contact::getInput(const std::string prompt)
+std::string Contact::GetInput(const std::string prompt)
 {
     std::string input;
     size_t found;
@@ -97,36 +97,34 @@ std::string Contact::getInput(const std::string prompt)
             std::cout << "\nEnd of input detected. Exiting the program." << std::endl;
             std::exit(1);
         }
-        if (found != std::string::npos && !input.empty() && !isEmpty(input))
+        if (found != std::string::npos && !input.empty() && !IsEmpty(input))
         {
-            if (isValidNumber(input))
+            if (IsValidNumber(input))
                 return input;
         }
-        else if (isValidInput(input))
+        else if (IsValidInput(input))
             return input;
     }
     return input;
 }
 
-void Contact::displayContacts(Contact contacts[8], int index)
+void Contact::DisplayContacts(Contact contacts[8], int index)
 {
-    std::cout << "Displaying contacts..." << std::endl;
-
     if (index == -1)
     {
-        std::cout << std::setw(10) << truncateField("Index") << " | "
-                  << std::setw(10) << truncateField("First Name") << " | "
-                  << std::setw(10) << truncateField("Last Name") << " | "
-                  << std::setw(10) << truncateField("Nickname") << std::endl;
+        std::cout << std::setw(10) << TruncateField("Index") << " | "
+                  << std::setw(10) << TruncateField("First Name") << " | "
+                  << std::setw(10) << TruncateField("Last Name") << " | "
+                  << std::setw(10) << TruncateField("Nickname") << std::endl;
         std::cout << "--------------------------------------------------" << std::endl;
         for (int i = 0; i < 8; i++)
         {
             if (contacts[i].firstName.empty())
                 break;
             std::cout << std::setw(10) << i
-                    << " | " << std::setw(10) << truncateField(contacts[i].firstName)
-                    << " | " << std::setw(10) << truncateField(contacts[i].lastName)
-                    << " | " << std::setw(10) << truncateField(contacts[i].nickname) << std::endl;
+                    << " | " << std::setw(10) << TruncateField(contacts[i].firstName)
+                    << " | " << std::setw(10) << TruncateField(contacts[i].lastName)
+                    << " | " << std::setw(10) << TruncateField(contacts[i].nickname) << std::endl;
         }
     }
     else if (index >= 0 && index < 8)
@@ -136,10 +134,11 @@ void Contact::displayContacts(Contact contacts[8], int index)
             std::cout << "No contact found at index " << index << "." << std::endl;
             return;
         }
-        std::cout << "First Name: " << truncateField(contacts[index].firstName) << std::endl;
-        std::cout << "Last Name: " << truncateField(contacts[index].lastName) << std::endl;
-        std::cout << "Nickname: " << truncateField(contacts[index].nickname) << std::endl;
-        std::cout << "Phone Number: " << truncateField(contacts[index].phoneNumber) << std::endl;
+        std::cout << "First Name: " << contacts[index].firstName << std::endl;
+        std::cout << "Last Name: " << contacts[index].lastName << std::endl;
+        std::cout << "Nickname: " << contacts[index].nickname << std::endl;
+        std::cout << "Phone Number: " << contacts[index].phoneNumber << std::endl;
+        std::cout << "Darkest Secret: " << contacts[index].darkestSecret << std::endl;
     }
     else
     {
@@ -147,7 +146,7 @@ void Contact::displayContacts(Contact contacts[8], int index)
     }
 }
 
-void Contact::fillContact(Contact& contact)
+void Contact::FillContact(Contact& contact)
 {
     std::string tempFirstName;
     std::string tempLastName;
@@ -155,13 +154,14 @@ void Contact::fillContact(Contact& contact)
     std::string tempPhoneNumber;
     std::string tempDarkestSecret;
 
-    tempFirstName = contact.getInput("Enter First Name: ");
-    tempLastName = contact.getInput("Enter Last Name: ");
-    tempNickname = contact.getInput("Enter Nickname: ");
-    tempPhoneNumber = contact.getInput("Enter Phone Number: ");
-    tempDarkestSecret = contact.getInput("Enter Darkest Secret: ");
+    tempFirstName = contact.GetInput("Enter First Name: ");
+    tempLastName = contact.GetInput("Enter Last Name: ");
+    tempNickname = contact.GetInput("Enter Nickname: ");
+    tempPhoneNumber = contact.GetInput("Enter Phone Number: ");
+    tempDarkestSecret = contact.GetInput("Enter Darkest Secret: ");
 
-    if (!tempFirstName.empty() && !tempLastName.empty() && !tempNickname.empty() && !tempPhoneNumber.empty() && !tempDarkestSecret.empty())
+    if (!tempFirstName.empty() && !tempLastName.empty() && !tempNickname.empty()
+        && !tempPhoneNumber.empty() && !tempDarkestSecret.empty())
     {
         contact.firstName = tempFirstName;
         contact.lastName = tempLastName;
