@@ -11,18 +11,13 @@
 /* ************************************************************************** */
 
 #include "ClapTrap.hpp"
+#include "ScavTrap.hpp"
 
 int main() {
-    ClapTrap clap1("MORO");
-    ClapTrap clap2;
-    for (int i = 0; i < 6; i++)
-    {
-        clap1.attack("Target1");
-        clap1.beRepaired(3);
-    }
-    clap2.takeDamage(5);
-    clap2.attack("Target2");
-    clap1.takeDamage(15);
-    clap2.beRepaired(10);
+    ScavTrap scav("R2D2");
+    scav.attack("C3PO");
+    scav.takeDamage(20);
+    scav.beRepaired(10);
+    scav.guardGate();
     return 0;
 }

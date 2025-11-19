@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   ScavTrap.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: relgheit <relgheit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/19 10:40:04 by relgheit          #+#    #+#             */
-/*   Updated: 2025/11/19 10:40:04 by relgheit         ###   ########.fr       */
+/*   Created: 2025/11/19 18:20:42 by relgheit          #+#    #+#             */
+/*   Updated: 2025/11/19 18:20:42 by relgheit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ClapTrap.hpp"
+#ifndef SCAVTRAP_HPP
+#define SCAVTRAP_HPP
 
-int main() {
-    ClapTrap clap1("MORO");
-    ClapTrap clap2;
-    for (int i = 0; i < 6; i++)
-    {
-        clap1.attack("Target1");
-        clap1.beRepaired(3);
-    }
-    clap2.takeDamage(5);
-    clap2.attack("Target2");
-    clap1.takeDamage(15);
-    clap2.beRepaired(10);
-    return 0;
-}
+#include "ClapTrap.hpp"
+#include <iostream>
+#include <string>
+
+class ScavTrap: public ClapTrap {
+    public:
+        ScavTrap();
+        ScavTrap(std::string name);
+        ~ScavTrap();
+        void guardGate();
+        void attack(const std::string& target);
+
+};
+
+#endif

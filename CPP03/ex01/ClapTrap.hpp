@@ -23,11 +23,12 @@
 #define BLUE    "\033[34m"
 #define MAGENTA "\033[35m"
 #define CYAN    "\033[36m"
+#define ORANGE  "\033[38;5;208m"
 #define WHITE   "\033[37m"
 
 
 class ClapTrap{
-    private:
+    protected:
         std::string _Name;
         unsigned int _hitPoints;
         unsigned int _energyPoints;
