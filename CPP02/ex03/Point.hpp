@@ -6,7 +6,7 @@
 /*   By: relgheit <relgheit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 15:02:17 by relgheit          #+#    #+#             */
-/*   Updated: 2025/11/18 16:37:18 by relgheit         ###   ########.fr       */
+/*   Updated: 2025/11/19 09:38:15 by relgheit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ class Point
         ~Point();
         const Fixed &getX() const;
         const Fixed &getY() const;
-        
-    
 };
 
 
