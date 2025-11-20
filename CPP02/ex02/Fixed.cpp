@@ -6,7 +6,7 @@
 /*   By: relgheit <relgheit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 16:27:52 by relgheit          #+#    #+#             */
-/*   Updated: 2025/11/07 16:23:17 by relgheit         ###   ########.fr       */
+/*   Updated: 2025/11/20 10:28:03 by relgheit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,30 @@
 
 Fixed::Fixed():_fixedPointValue(0)
 {
-    std::cout << "Default constructor called" << std::endl;
+    std::cout << GREEN << "Default constructor called" << RESET << std::endl;
 }
 Fixed::~Fixed()
 {
-    std::cout << "Destructor called" << std::endl;
+    std::cout << RED << "Destructor called" << RESET << std::endl;
 }
 Fixed::Fixed(const int num):_fixedPointValue(num << _fractionalBits)
 {
-    std::cout << "Int constructor called" << std::endl;
+    std::cout << GREEN << "Int constructor called" << RESET << std::endl;
 }
 
 Fixed::Fixed(const float num):_fixedPointValue(roundf(num * (1 << _fractionalBits)))
 {
-    std::cout << "Float constructor called" << std::endl;
+    std::cout << GREEN << "Float constructor called" << RESET << std::endl;
 }
 
-Fixed::Fixed(const Fixed &copy)
+Fixed::Fixed(const Fixed &copy):_fixedPointValue(copy._fixedPointValue)
 {
-    std::cout << "Copy constructor called" << std::endl;
-    *this = copy;
+    std::cout << YELLOW << "Copy constructor called" << RESET << std::endl;
 }
 
 Fixed &Fixed::operator=(const Fixed &other)
 {
-    std::cout << "Copy assignment operator called" << std::endl;
+    std::cout << BLUE << "Copy assignment operator called" << RESET << std::endl;
     if(this != &other)
     {
         this->_fixedPointValue = other._fixedPointValue;
@@ -130,7 +129,7 @@ Fixed &Fixed::operator++()
 
 Fixed Fixed::operator++(int)
 {
-    Fixed temp = *this;
+    Fixed temp(*this);
     this->_fixedPointValue++;
     return temp;
 }
@@ -143,7 +142,7 @@ Fixed &Fixed::operator--()
 
 Fixed Fixed::operator--(int)
 {
-    Fixed temp = *this;
+    Fixed temp(*this);
     this->_fixedPointValue--;
     return temp;
 }

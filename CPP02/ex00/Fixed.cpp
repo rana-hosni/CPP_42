@@ -6,7 +6,7 @@
 /*   By: relgheit <relgheit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 16:27:52 by relgheit          #+#    #+#             */
-/*   Updated: 2025/11/07 10:53:18 by relgheit         ###   ########.fr       */
+/*   Updated: 2025/11/20 09:32:06 by relgheit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 Fixed::Fixed():_fixedPointValue(0)
 {
-    std::cout << "Default constructor called" << std::endl;
+    std::cout << GREEN << "Default constructor called" << RESET << std::endl;
 }
 Fixed::~Fixed()
 {
-    std::cout << "Destructor called" << std::endl;
+    std::cout << RED << "Destructor called" << RESET << std::endl;
 }
 
 Fixed::Fixed(const Fixed &copy)
 {
-    std::cout << "Copy constructor called" << std::endl;
+    std::cout << YELLOW << "Copy constructor called" << RESET << std::endl;
     *this = copy;
 }
 
 Fixed &Fixed::operator=(const Fixed &other)
 {
-    std::cout << "Copy assignment operator called" << std::endl;
+    std::cout << BLUE << "Copy assignment operator called" << RESET << std::endl;
     if(this != &other)
     {
         this->_fixedPointValue = other._fixedPointValue;
