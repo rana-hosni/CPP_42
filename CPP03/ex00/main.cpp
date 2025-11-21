@@ -24,5 +24,7 @@ int main() {
     clap2.attack("Target2");
     clap1.takeDamage(15);
     clap2.beRepaired(10);
+    clap1.printStats();
+    clap2.printStats();
     return 0;
 }

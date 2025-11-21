@@ -23,7 +23,6 @@
 #define BLUE    "\033[34m"
 #define MAGENTA "\033[35m"
 #define CYAN    "\033[36m"
-#define WHITE   "\033[37m"
 
 
 class ClapTrap{
@@ -36,10 +35,13 @@ class ClapTrap{
     public:
         ClapTrap();
         ClapTrap(std::string name);
+        ClapTrap(const ClapTrap& other);
+        ClapTrap& operator=(const ClapTrap& other);
         ~ClapTrap();
         void attack(const std::string& target);
         void takeDamage(unsigned int amount);
         void beRepaired(unsigned int amount);
+        void printStats();
 
 };
 
