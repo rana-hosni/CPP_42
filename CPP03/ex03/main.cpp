@@ -13,17 +13,18 @@
 #include "ClapTrap.hpp"
 #include "ScavTrap.hpp"
 #include "FragTrap.hpp"
+#include "DiamondTrap.hpp"
 
 int main() {
-    ScavTrap scav("R2D2");
-    FragTrap frag("FRAG");
-    scav.attack("C3PO");
-    scav.takeDamage(20);
-    scav.beRepaired(10);
+    ClapTrap clap("Clappy");
+    ScavTrap scav("Scavvy");
+    FragTrap frag("Fraggy");
+    DiamondTrap diamond("Diamond");
+    clap.attack("Target1");
+    scav.attack("Target2");
+    frag.attack("Target3");
     scav.guardGate();
-    frag.attack("C3PO");
-    frag.takeDamage(30);
-    frag.beRepaired(20);
     frag.highFivesGuys();
+    diamond.attack("Target4");
     return 0;
 }

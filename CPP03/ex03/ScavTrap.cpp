@@ -30,6 +30,19 @@ ScavTrap::~ScavTrap(){
     std::cout << GREEN << "ScavTrap Destructor called" <<  RESET << std::endl;
 }
 
+ScavTrap::ScavTrap(const ScavTrap& other): ClapTrap(other){
+    std::cout << GREEN << "ScavTrap Copy constructor called" << RESET << std::endl;
+}
+
+ScavTrap& ScavTrap::operator=(const ScavTrap& other){
+    std::cout << GREEN << "ScavTrap Copy assignment operator called" << RESET << std::endl;
+    if (this != &other)
+    {
+        ClapTrap::operator=(other);
+    }
+    return *this;
+}
+
 void ScavTrap::attack(const std::string& target){
     if (_energyPoints <= 0 || _hitPoints <= 0)
     {
