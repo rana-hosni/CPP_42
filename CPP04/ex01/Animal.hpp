@@ -26,7 +26,11 @@ class Animal{
         Animal& operator=(const Animal& other);
         virtual ~Animal();
         virtual void makeSound() const;
+
         std::string getType() const;
+        virtual std::string getIdea(int index) const;
+
+
 };
 
 #endif

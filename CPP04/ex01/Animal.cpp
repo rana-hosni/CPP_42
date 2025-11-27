@@ -45,4 +45,7 @@ std::string Animal::getType() const{
     return this->_type;
 }
 
-
+std::string Animal::getIdea(int index) const{
+    (void)index;
+    return "";
+}

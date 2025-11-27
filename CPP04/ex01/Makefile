@@ -6,10 +6,11 @@ SRCS = main.cpp\
 	Dog.cpp\
 	Cat.cpp\
 	WrongAnimal.cpp\
-	WrongCat.cpp
+	WrongCat.cpp\
+	Brain.cpp
 
 OBJS = $(SRCS:.cpp=.o)
-NAME = ex00
+NAME = ex01
 
 all: $(NAME)
 
