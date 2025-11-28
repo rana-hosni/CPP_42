@@ -27,6 +27,9 @@ class Dog: public Animal{
         Dog(const Dog& copy);
         Dog& operator=(const Dog& other);
         virtual ~Dog();
+
         virtual void makeSound() const;
+        virtual std::string getIdea(int index) const;
+        virtual void setIdea(int index, const std::string& idea);
 };
 #endif

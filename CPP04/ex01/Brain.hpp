@@ -6,7 +6,7 @@
 /*   By: relgheit <relgheit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 14:19:55 by relgheit          #+#    #+#             */
-/*   Updated: 2025/11/27 15:29:46 by relgheit         ###   ########.fr       */
+/*   Updated: 2025/11/28 13:13:56 by relgheit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ class Brain{
         ~Brain();
         
         std::string getIdea(int index) const;
+        void setIdea(int index, const std::string& idea);
 };
 
 #endif

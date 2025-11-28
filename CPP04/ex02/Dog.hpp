@@ -1,36 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Cat.hpp                                            :+:      :+:    :+:   */
+/*   Dog.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: relgheit <relgheit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/26 15:28:55 by relgheit          #+#    #+#             */
-/*   Updated: 2025/11/26 15:28:55 by relgheit         ###   ########.fr       */
+/*   Created: 2025/11/26 15:26:47 by relgheit          #+#    #+#             */
+/*   Updated: 2025/11/26 15:26:47 by relgheit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CAT_HPP
-#define CAT_HPP
+#ifndef DOG_HPP
+#define DOG_HPP
 
 #include <iostream>
 #include <string>
 #include "Animal.hpp"
 #include "Brain.hpp"
 
-class Cat: public Animal{
+class Dog: public Animal{
     private:
         Brain* brain;
     public:
-        Cat();
-        Cat(std::string type);
-        Cat(const Cat& copy);
-        Cat& operator=(const Cat& other);
-        virtual ~Cat();
-
+        Dog();
+        Dog(std::string type);
+        Dog(const Dog& copy);
+        Dog& operator=(const Dog& other);
+        virtual ~Dog();
         virtual void makeSound() const;
         virtual std::string getIdea(int index) const;
         virtual void setIdea(int index, const std::string& idea);
 };
-
 #endif
