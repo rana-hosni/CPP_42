@@ -6,7 +6,7 @@
 /*   By: relgheit <relgheit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 11:33:58 by relgheit          #+#    #+#             */
-/*   Updated: 2025/12/01 14:46:01 by relgheit         ###   ########.fr       */
+/*   Updated: 2025/12/03 14:06:51 by relgheit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,16 @@ void Bureaucrat::decrementGrade()
         _grade++;
     else
         throw GradeTooLowException ();
+}
+void Bureaucrat::signForm(Form& form)
+{
+    try{
+        form.beSigned(*this);
+        std::cout << _name << " signed " << form.getName() << std::endl;
+    }
+    catch(const std::exception& e){
+        std::cout << _name << " couldn't sign " << form.getName() << " because " << e.what() << std::endl;
+    }
 }
 
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& bureaucrat)

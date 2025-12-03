@@ -1,6 +1,6 @@
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98
-CFILES = Bureaucrat.cpp main.cpp
+CFILES = Bureaucrat.cpp main.cpp Form.cpp
 OBJ = $(CFILES:.cpp=.o)
 NAME = bureaucrat
 
