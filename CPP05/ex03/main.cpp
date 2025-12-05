@@ -6,7 +6,7 @@
 /*   By: relgheit <relgheit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 11:33:31 by relgheit          #+#    #+#             */
-/*   Updated: 2025/12/05 05:19:11 by relgheit         ###   ########.fr       */
+/*   Updated: 2025/12/05 09:47:55 by relgheit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int main()
     std::cout << *testForm2;
     AForm *testForm3 = someRandomIntern.makeForm("shrubbery creation", "Intern3");
     std::cout << *testForm3;
-    std::cout << RED << "---------Failed TEST---------------" << RESET << std::endl;
+    std::cout << RED << "---------Failed INTERN TEST---------------" << RESET << std::endl;
     AForm* testForm4 = someRandomIntern.makeForm("unknown form", "Intern4");
     std::cout << YELLOW << "--------CLEAN----------------" << RESET << std::endl;
     if (testForm1)
