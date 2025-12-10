@@ -15,7 +15,8 @@ class ScalarConverter{
 
         static void printChar(std::string literal);
         static bool isInt(std::string literal);
-        // static bool isFloat(std::string literal);
+        static void wrongLiteral();
+        static bool isNumber(std::string literal);
         // static bool isDouble(std::string literal);
         static void printImpossible(std::string literal);
     public:
