@@ -3,7 +3,7 @@ template <typename T>
 Array<T>::Array() : _elements(nullptr), _size(0) {
 }
 template <typename T>
-Array<T>::Array(unsigned int n) : _elements(new T[n]), _size(n){
+Array<T>::Array(unsigned int n) : _elements(new T[n]()), _size(n){
 }
 
 template <typename T>

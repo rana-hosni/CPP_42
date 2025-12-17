@@ -1,8 +1,8 @@
 CC = c++
-CFLAGS = -Wall -Werror -Wextra -std=c++98
+CFLAGS = -Wall -Werror -Wextra -std=c++98 -g
 SRC = main.cpp
 OBJ = $(SRC:.cpp=.o)
-NAME = ex01
+NAME = ex02
 
 all: $(NAME)
 

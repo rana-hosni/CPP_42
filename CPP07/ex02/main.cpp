@@ -1,12 +1,17 @@
 #include "Array.hpp"
 
 int main() {
-    Array<int> *intArray=  new Array<int>(5);
+    Array<int> *intArray=  new Array<int>(4);
     Array<std::string> *strArray = new Array<std::string>(3);
     const Array<int> *constIntArray = new Array<int>(2);
     std::cout << "Integer Array Size: " << intArray->size() << std::endl;
     std::cout << "String Array Size: " << strArray->size() << std::endl;
     std::cout << "Const Integer Array Size: " << constIntArray->size() << std::endl;
+    std::cout << "----------------------------------------" << std::endl;
+    int * a = new int(); // to test uninitialized values
+    std::cout << "address of uninitialized int: " << a << " value: " << *a << std::endl;
+    delete a;
+    std::cout << "---------Testing out of bounds access----------" << std::endl;
     try {
         (*intArray)[10] = 42; // This should throw an exception
     } catch (const std::exception &e) {
@@ -17,12 +22,14 @@ int main() {
     } catch (const std::exception &e) {
         std::cout << "Exception caught: Index out of bounds" << std::endl;
     }
+    std::cout << "----------------------------------------" << std::endl;
     std::cout << "Setting and getting values in Integer Array:" << std::endl;
     for (unsigned int i = 0; i < intArray->size(); i++)
     {
         (*intArray)[i] = i * 10;
         std::cout << "intArray[" << i << "] = " << (*intArray)[i] << std::endl;
     }
+    std::cout << "----------------------------------------" << std::endl;
     std::cout << "Setting and getting values in String Array:" << std::endl;
     (*strArray)[0] = "Hello";
     (*strArray)[1] = "World";
@@ -66,7 +73,6 @@ int main() {
     {
         std::cout << "assignedArray[" << i << "] = " << assignedArray[i] << std::endl;
     }   
-
     std::cout << "----------------------------------------" << std::endl;
 
     std::cout << " test const correctness:" << std::endl;
