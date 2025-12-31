@@ -14,6 +14,8 @@ void BitcoinExchange::loadData(const std::string& filename) {
     std::getline(file, line); // Skip header line
     while (std::getline(file, line))
     {
+        if (line.empty())
+            continue;
         size_t comma = line.find(',');
         if (comma != std::string::npos) {
             std::string date = line.substr(0, comma);
@@ -34,11 +36,10 @@ void BitcoinExchange::loadData(const std::string& filename) {
             _data[date] = rate;
         }
     }
-
     file.close();
-    // for (std::map<std::string, float>::iterator it = _data.begin(); it != _data.end(); ++it) {
-    //     std::cout << it->first << " => " << it->second << std::endl;
-    // }
+    if (_data.empty()) {
+        throw InvalidFileException();
+    }
 }
 
 void BitcoinExchange::loadInput(const std::string& filename) {
@@ -48,26 +49,35 @@ void BitcoinExchange::loadInput(const std::string& filename) {
     std::getline(file, line); // Skip header line
     while (std::getline(file, line))
     {
+        if (line.empty())
+            continue;
+        Input _input;
         size_t separator = line.find(" | ");
         if (separator != std::string::npos) {
-            std::string date = line.substr(0, separator);
+            _input.date = line.substr(0, separator);
             std::string valueString = line.substr(separator + 3);
-            if (!valueString.empty() && valueString[valueString.length() - 1] == '\r') {
-                // std::cout << "Removing carriage return from value: " << value << std::endl;
-                valueString.erase(valueString.length() - 1);
-            }
-            if (!BitcoinExchange::isValidDate(date)) {
+            if (!BitcoinExchange::isValidDate(_input.date)) {
                 std::cerr << RED << "Error:" << RESET << " invalid date => " << line << std::endl;
                 continue;
             }
-            if (BitcoinExchange::isValidValue(valueString)){
-                //convert valueString to double and calculate exchange
+            if (valueString.empty()) {
+                std::cerr << RED << "Error:" << RESET << " bad input => " << line << std::endl;
+                continue;
+            }
+            _input.value = BitcoinExchange::isValidValue(valueString);
+            if (_input.value == -1)
+                continue;
+            else{
+                _input.result = getResult(_input.date, _input.value);
+                if (_input.result != -1)
+                    printResult(_input);
             }
 
         }
         else
             std::cerr << RED << "Error:" << RESET << " bad input => " << line << std::endl;
     }
+    file.close();
 }
 
 void BitcoinExchange::openFile(const std::ifstream& file) {
@@ -115,26 +125,60 @@ bool BitcoinExchange::isValidDate(const std::string& date) {
     return true;
 }
 
-bool BitcoinExchange::isValidValue(const std::string& value){
+double BitcoinExchange::isValidValue(const std::string& value){
     if (value[0] == '.' || value[value.length() - 1] == '.') {
         std::cerr << RED << "Error:" << RESET << " invalid value => " << value << std::endl;
-        return false; // Invalid format
+        return -1; // Invalid format
+    }
+    if (value[0] == '-') {
+        std::cerr << RED << "Error:" << RESET << " not a positive number." << std::endl;
+        return -1;
     }
     std::istringstream ss(value);
-    float val;
+    double val;
     ss >> val;
-    std::cout << "Parsed value: " << val << std::endl;
     if (ss.fail() || !ss.eof() ) {
         std::cerr << RED << "Error:" << RESET << " invalid value => " << value << std::endl;
-        return false; // Invalid format
+        return -1; // Invalid format
     }
     if (val < 0.0) {
-        std::cerr << RED << "Error:" << RESET << " negative number." << std::endl;
-        return false;
+        std::cerr << RED << "Error:" << RESET << " not a positive number." << std::endl;
+        return -1;
     }
     else if (val > 1000.0) {
-        std::cerr << RED << "Error:" << RESET << " too large number." << std::endl;
-        return false;
+        std::cerr << RED << "Error:" << RESET << " too large a number." << std::endl;
+        return -1;
     }
-    return true;
+    return val;
+}
+
+double BitcoinExchange::getResult(const std::string& date, double value){
+    std::map<std::string, double>::iterator it = _data.find(date);
+    double result;
+    if (it != _data.end() && it->first == date){
+        //Search for closest
+        result = it->second * value;
+    }
+    else{
+        try{
+
+            it = _data.lower_bound(date);
+            if (it == _data.begin() && it->first != date){
+                throw DateNotFoundException();
+            }
+            else{
+                --it;
+                result = it->second * value;
+            }
+        }
+        catch (const DateNotFoundException& e) {
+            std::cerr << e.what() << std::endl;
+            result = -1; // or handle the error as needed
+        }
+    }
+    return result;
+}
+
+void BitcoinExchange:: printResult(Input& input) {
+    std::cout << input.date << " => " << input.value << " = " << input.result << std::endl;
 }

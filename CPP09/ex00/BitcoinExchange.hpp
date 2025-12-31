@@ -16,25 +16,42 @@
 #include <cstdlib>
 #include <iomanip>
 
-class BitcoinExchange {
-public:
-    BitcoinExchange();
-    ~BitcoinExchange();
-
-    void loadData(const std::string& filename);
-    void loadInput(const std::string& filename);
-    // float getExchangeRate(const std::string& date) const;
-    static bool isValidDate(const std::string& date);
-    static void openFile(const std::ifstream& file);
-    static bool isValidValue(const std::string& value);
-
-    class InvalidFileException : public std::exception{
-    public:
-        const char* what() const throw() {
-            return "Error: Invalid file";
-        }
-    };
-private:
-    std::map<std::string, double> _data;
+struct Input
+{
+    std::string date;
+    double value;
+    double result;
 };
+
+class BitcoinExchange {
+    private:
+        std::map<std::string, double> _data;
+        double getResult(const std::string& date, double value);
+    public:
+        BitcoinExchange();
+        ~BitcoinExchange();
+
+        void loadData(const std::string& filename);
+        void loadInput(const std::string& filename);
+        void printResult(Input& input);
+        static bool isValidDate(const std::string& date);
+        static void openFile(const std::ifstream& file);
+        static double isValidValue(const std::string& value);
+
+        class InvalidFileException : public std::exception{
+            public:
+                const char* what() const throw() {
+                    return "Error: Invalid file";
+                }
+        };
+        class DateNotFoundException : public std::exception{
+            public:
+            const char* what() const throw() {
+                return "Error: Date not found in data";
+            }
+        };
+};
+
+
+
 #endif

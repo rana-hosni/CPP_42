@@ -46,7 +46,6 @@ int main(int argc, char** argv) {
         return 1;
     }
     exchange.loadInput(inputFile);
-    // Further implementation goes here
 
     return 0;
 }
