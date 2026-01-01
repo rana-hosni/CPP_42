@@ -1,11 +1,7 @@
 #include "RPN.hpp"
 
-RPN::RPN() {}
+RPN::RPN() : numberCount(0), operationCount(0), _result(0) {}
 RPN::~RPN() {}
-
-// int RPN::calculate(const std::string& expression){
-
-// }
 
 void RPN::acceptInput(const std::string& input){
     for (size_t i = 0; i < input.length(); i++){
@@ -20,19 +16,29 @@ void RPN::acceptInput(const std::string& input){
         }
         if (isdigit(input[i])){
             _numbers.push(input[i] - '0');
+            numberCount++;
         }
         else if (input[i] == ' '){
             continue;
         }
         else {
             if (_numbers.size() < 2){
-                std::cerr << "Error: Not enough operands in stack for operation" << std::endl;
+                std::cerr << "Error" << std::endl;
                 return;
             }
+            operationCount++;
             _result = calculate(input[i]);
         }
     }
-    std::cout << "Final result: " << _numbers.top() << std::endl;
+    printResult();
+}
+
+void RPN::printResult(){
+    if (numberCount - operationCount != 1){
+        std::cerr << "Error" << std::endl;
+        return;
+    }
+    std::cout << _result << std::endl;
 }
 
 int RPN::calculate(char op){

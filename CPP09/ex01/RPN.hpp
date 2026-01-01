@@ -9,6 +9,8 @@
 class RPN {
     private:
         std::stack<int> _numbers;
+        int numberCount;
+        int operationCount;
         int _result;
 
     public:
@@ -18,6 +20,7 @@ class RPN {
         // RPN& operator=(const RPN& other);
         void acceptInput(const std::string& input);
         int calculate(char op);
+        void printResult();
 };
 
 #endif
