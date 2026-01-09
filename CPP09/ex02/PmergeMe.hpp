@@ -11,6 +11,8 @@
 #include <cstdlib>
 
 
+
+
 template<typename T>
 void printContainer(const T &container) {
     for (typename T::const_iterator it = container.begin(); it != container.end(); ++it) {
@@ -27,13 +29,18 @@ double calculateTime(void (*sortFunction)(T &), T &container) {
     return static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000000; // microseconds
 }
 
+struct inputVector{
+    std::vector<int> vNumbers;
+    std::pair<int, std::vector<int> > pair;
+    int max;
+    int min;
+    
+};
+
 bool validateArguments(int argc, char **argv);
 void storeNumbers(const char** argv, std::vector<int> &vNumbers, std::deque<int> &dNumbers);
 std::vector<int> sortVector(std::vector<int> &vNumbers);
-std::vector<int> builtMainChain(std::vector<std::pair<int, int> > &pairs);
-// void mergeVectors(std::vector<int> &left, std::vector<int> &right, std::vector<int> &merged);
-// void sortDeque(std::deque<int> &dNumbers);
-// void mergeDeques(std::deque<int> &left, std::deque<int> &right, std::deque<int> &merged);
+std::vector<int> insertIntoMainChain(std::vector<int> &mainChain, int value);
 
 
 

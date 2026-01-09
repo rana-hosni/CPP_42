@@ -24,23 +24,37 @@ int main(int argc, char **argv)
         std::cerr << "Error: Not enough arguments." << std::endl;
         return 1;
     }
-    std::vector<int> vNumbers;
+    inputVector input;
+    // std::vector<int> vNumbers;
     std::deque<int> dNumbers;
     if (!validateArguments(argc, argv)) {
         std::cerr << "Error: Invalid arguments." << std::endl;
         return 1;
     }
-    storeNumbers((const char**)argv, vNumbers, dNumbers);
+    storeNumbers((const char**)argv, input.vNumbers, dNumbers);
     std::cout << "Before: ";
-    printContainer(vNumbers);
-    vNumbers = sortVector(vNumbers);
+    printContainer(input.vNumbers);
+
+    try{
+        std::cout << "Accessing pair.first before sorting: " ;
+        std::cout << input.pair.first << " --- " ;
+    }
+    catch(...){
+        std::cout << "Exception caught while accessing pair.first" << std::endl;
+    }
+    input.vNumbers = sortVector(input.vNumbers);
+
+
+
+
+
     // sortDeque(dNumbers);
     // double vectorTime = calculateTime(sortVector, vNumbers);
     // double dequeTime = calculateTime(sortDeque, dNumbers);
     
     // PRINTING THE NUMBERS
     std::cout << "After:  ";
-    printContainer(vNumbers);
+    printContainer(input.vNumbers);
     // std::cout << "Time to process a range of " << vNumbers.size() << " elements with std::vector : " << vectorTime << " us" << std::endl;
     // std::cout << "Time to process a range of " << dNumbers.size() << " elements with std::deque  : " << dequeTime << " us" << std::endl;
     // Further implementation goes here

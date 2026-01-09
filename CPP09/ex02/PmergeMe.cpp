@@ -1,4 +1,5 @@
 #include "PmergeMe.hpp"
+#include <math.h>
 
 bool validateArguments(int argc, char **argv){
     for (int i = 1; i < argc; i++) {
@@ -35,108 +36,74 @@ void storeNumbers(const char** argv, std::vector<int> &vNumbers, std::deque<int>
 
 std::vector<int> sortVector(std::vector<int> &vNumbers){
     // step 1: make pairs
-    std::vector<std::pair<int, int> > pairs;
+    if (vNumbers.size() <= 1) {
+        return vNumbers;
+    }
+    std::vector<std::pair<std::vector<int>, std::vector<int> > > pairs;
     for (size_t i = 0; i + 1 < vNumbers.size(); i += 2) {
-        if (vNumbers[i] < vNumbers[i + 1]) {
-            pairs.push_back(std::make_pair(vNumbers[i], vNumbers[i + 1]));
+        // Keep pairs as vectors by wrapping each int into a single-element vector
+        std::vector<int> a(1, vNumbers[i]);
+        std::vector<int> b(1, vNumbers[i + 1]);
+        if (a[0] < b[0]) {
+            pairs.push_back(std::make_pair(a, b));
         } else {
-            pairs.push_back(std::make_pair(vNumbers[i + 1], vNumbers[i]));
+            pairs.push_back(std::make_pair(b, a));
         }
     }
+    std::cout << "----------------------------------------"<< std::endl;
+    for (size_t i = 0; i < pairs.size(); i++) {
+        std::cout << "Pair " << i << ": (" << pairs[i].first[0] << ", " << pairs[i].second[0] << ")" << std::endl;
+    }
+    std::cout << "----------------------------------------"<< std::endl;
+
+
+    int leftover = -1;
     if (vNumbers.size() % 2 != 0) {
-        pairs.push_back(std::make_pair(vNumbers.back(), INT_MAX));
+        leftover = vNumbers.back();
     }
-    // Step 2: Build the main chain
-    std::vector<int> mainChain = builtMainChain(pairs);
-    if (mainChain.size() > 1) {
-        mainChain = sortVector(mainChain);   // recursion here
-    }
-    // if (mainChain.size() == vNumbers.size()/ 2 || (vNumbers.size() % 2 != 0 && mainChain.size() == vNumbers.size() / 2 + 1)) {
-    //     return;
-    // }
-    std::cout << "Pairs after sorting: ";
+
+    std::vector<int> bigNumbers;
+
+    std::cout << "Big numbers before sorting: ";
     for (size_t i = 0; i < pairs.size(); i++) {
-        std::cout << "(" << pairs[i].first << ", " << pairs[i].second << ") ";
+        std::cout << pairs[i].second[0] << " ";
+        bigNumbers.push_back(pairs[i].second[0]);
     }
-    // std::cout << std::endl;
+
+    std::cout << std::endl;
+    std::vector<int> mainChain = sortVector(bigNumbers);
+    // TESTING RECURSION
+    std::cout << "TESTING RECURSION" << std::endl;
+    for (size_t i = 0; i < mainChain.size(); i++) {
+        std::cout << mainChain[i] << " ";
+    }
+    std::cout << std::endl;
+
+    std::vector<int> smallNumbers;
+    for (size_t i = 0; i < pairs.size(); i++) {
+        smallNumbers.push_back(pairs[i].first[0]);
+    }
+
+    if (leftover != -1) {
+        smallNumbers.push_back(leftover);
+    }
+
     return mainChain;
 }
 
-std::vector<int> builtMainChain(std::vector<std::pair<int, int> > &pairs){
-    std::vector<int> mainChain;
-    for (size_t i = 0; i < pairs.size(); i++) {
-        mainChain.push_back(pairs[i].first);
+
+std::vector<int> insertIntoMainChain(std::vector<int> &mainChain, int value){
+    size_t left = 0;
+    size_t right = mainChain.size();
+    while (left < right) {
+        size_t mid = left + (right - left) / 2;
+        if (mainChain[mid] < value) {
+            left = mid + 1;
+        } else {
+            right = mid;
+        }
     }
-    std::cout << "Main chain before sorting: ";
-    printContainer(mainChain);
-    // Sort main chain
+    mainChain.insert(mainChain.begin() + left, value);
     return mainChain;
 }
-
-
-// void sortVector(std::vector<int> &vNumbers){
-//     int n = vNumbers.size();
-//     std::vector<int> right;
-//     std::vector<int> left;
-//     if (n <= 1)
-//         return;
-//     for (int i = 0; i < n / 2; i++)
-//         left.push_back(vNumbers[i]);
-//     for (int i = n / 2; i < n; i++)
-//         right.push_back(vNumbers[i]);
-//     sortVector(left);
-//     sortVector(right);
-//     vNumbers.resize(left.size() + right.size());
-//     mergeVectors(left, right, vNumbers);
-// }
-
-// void mergeVectors(std::vector<int> &left, std::vector<int> &right, std::vector<int> &merged) {
-//     size_t i = 0, j = 0, k = 0;
-//     while (i < left.size() && j < right.size()) {
-//         if (left[i] < right[j]) {
-//             merged[k++] = left[i++];
-//         } else {
-//             merged[k++] = right[j++];
-//         }
-//     }
-//     while (i < left.size()) {
-//         merged[k++] = left[i++];
-//     }
-//     while (j < right.size()) {
-//         merged[k++] = right[j++];
-//     }
-// }
-
-// void sortDeque(std::deque<int> &dNumbers){
-//     int n = dNumbers.size();
-//     std::deque<int> right;
-//     std::deque<int> left;
-//     if (n <= 1)
-//         return;
-//     for (int i = 0; i < n / 2; i++)
-//         left.push_back(dNumbers[i]);
-//     for (int i = n / 2; i < n; i++)
-//         right.push_back(dNumbers[i]);
-//     sortDeque(left);
-//     sortDeque(right);
-//     dNumbers.resize(left.size() + right.size());
-//     mergeDeques(left, right, dNumbers);
-// }
-
-// void mergeDeques(std::deque<int> &left, std::deque<int> &right, std::deque<int> &merged) {
-//     size_t i = 0, j = 0, k = 0;
-//     while (i < left.size() && j < right.size()) {
-//         if (left[i] < right[j]) {
-//             merged[k++] = left[i++];
-//         } else {
-//             merged[k++] = right[j++];
-//         }
-//     }
-//     while (i < left.size()) {
-//         merged[k++] = left[i++];
-//     }
-//     while (j < right.size()) {
-//         merged[k++] = right[j++];
-//     }
-// }
 
