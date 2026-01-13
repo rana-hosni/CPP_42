@@ -39,22 +39,22 @@ std::vector<int> sortVector(std::vector<int> &vNumbers){
     if (vNumbers.size() <= 1) {
         return vNumbers;
     }
-    std::vector<std::pair<std::vector<int>, std::vector<int> > > pairs;
+    std::vector< std::pair<int, int> > pairs;
     for (size_t i = 0; i + 1 < vNumbers.size(); i += 2) {
-        // Keep pairs as vectors by wrapping each int into a single-element vector
-        std::vector<int> a(1, vNumbers[i]);
-        std::vector<int> b(1, vNumbers[i + 1]);
-        if (a[0] < b[0]) {
-            pairs.push_back(std::make_pair(a, b));
+        // Keep pairs as vectors by wrapping them in groups of one element
+        if (vNumbers[i] < vNumbers[i + 1]) {
+            pairs.push_back(std::make_pair(vNumbers[i], vNumbers[i + 1]));
         } else {
-            pairs.push_back(std::make_pair(b, a));
+            pairs.push_back(std::make_pair(vNumbers[i + 1], vNumbers[i]));
         }
     }
-    std::cout << "----------------------------------------"<< std::endl;
-    for (size_t i = 0; i < pairs.size(); i++) {
-        std::cout << "Pair " << i << ": (" << pairs[i].first[0] << ", " << pairs[i].second[0] << ")" << std::endl;
-    }
-    std::cout << "----------------------------------------"<< std::endl;
+    // std::cout << "----------------------------------------"<< std::endl;
+    // std::cout << "Pairs formed: ";
+    // for (size_t i = 0; i < pairs.size(); i++) {
+        // std::cout << "(" << pairs[i].first << "," << pairs[i].second << ")";
+    // }
+    // std::cout << std::endl;
+    // std::cout << "----------------------------------------"<< std::endl;
 
 
     int leftover = -1;
@@ -64,33 +64,67 @@ std::vector<int> sortVector(std::vector<int> &vNumbers){
 
     std::vector<int> bigNumbers;
 
-    std::cout << "Big numbers before sorting: ";
+    // std::cout << "Big numbers before sorting: ";
     for (size_t i = 0; i < pairs.size(); i++) {
-        std::cout << pairs[i].second[0] << " ";
-        bigNumbers.push_back(pairs[i].second[0]);
+        // std::cout << pairs[i].second << " ";
+        bigNumbers.push_back(pairs[i].second);
     }
 
-    std::cout << std::endl;
+    // std::cout << std::endl;
     std::vector<int> mainChain = sortVector(bigNumbers);
     // TESTING RECURSION
-    std::cout << "TESTING RECURSION" << std::endl;
-    for (size_t i = 0; i < mainChain.size(); i++) {
-        std::cout << mainChain[i] << " ";
-    }
-    std::cout << std::endl;
+    // std::cout << "Big numbers after sorting: ";
+    // printContainer(mainChain);
+    // std::cout << "----------------------------------------"<< std::endl;
 
     std::vector<int> smallNumbers;
     for (size_t i = 0; i < pairs.size(); i++) {
-        smallNumbers.push_back(pairs[i].first[0]);
+        smallNumbers.push_back(pairs[i].first);
     }
-
+    
     if (leftover != -1) {
         smallNumbers.push_back(leftover);
     }
-
+    std::vector<size_t> order = jacobsthalOrder(smallNumbers);
+    // std::cout << "Small numbers: ";
+    // printContainer(smallNumbers);
+    // std::cout << "----------------------------------------"<< std::endl;
+    for (size_t i = 0; i < order.size(); i++) {
+        mainChain = insertIntoMainChain(mainChain, smallNumbers[order[i]]);
+        // std::cout << "After inserting " << smallNumbers[order[i]] << ": ";
+        // printContainer(mainChain);
+    }
     return mainChain;
 }
 
+// J(n) = J(n-1) + 2*J(n-2)
+
+std::vector<size_t> jacobsthalOrder(std::vector<int>& smallNumbers) {
+    size_t n = smallNumbers.size();
+    std::vector<size_t> order;
+    if (n == 0) 
+        return order;
+    
+    std::vector<bool> used(n, false);
+    size_t j0 = 0; // J(0)
+    size_t j1 = 1; // J(1)
+    while (j1 < n) {
+        if (!used[j1]) {
+            order.push_back(j1);
+            used[j1] = true;
+        }
+        size_t next = j1 + 2 * j0; // J(n) = J(n-1) + 2*J(n-2)
+        j0 = j1;
+        j1 = next;
+    }
+    for (size_t i = n; i-- > 0;) {
+        if (!used[i]) {
+            order.push_back(i);
+        }
+    }
+    // printContainer(order);
+    return order;
+}
 
 std::vector<int> insertIntoMainChain(std::vector<int> &mainChain, int value){
     size_t left = 0;

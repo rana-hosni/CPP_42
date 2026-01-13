@@ -29,18 +29,12 @@ double calculateTime(void (*sortFunction)(T &), T &container) {
     return static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000000; // microseconds
 }
 
-struct inputVector{
-    std::vector<int> vNumbers;
-    std::pair<int, std::vector<int> > pair;
-    int max;
-    int min;
-    
-};
 
 bool validateArguments(int argc, char **argv);
 void storeNumbers(const char** argv, std::vector<int> &vNumbers, std::deque<int> &dNumbers);
 std::vector<int> sortVector(std::vector<int> &vNumbers);
 std::vector<int> insertIntoMainChain(std::vector<int> &mainChain, int value);
+std::vector<size_t> jacobsthalOrder(std::vector<int> &smallNumbers);
 
 
 
