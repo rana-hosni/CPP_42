@@ -42,15 +42,16 @@ int main(int argc, char **argv)
         return 1;
     }
     storeNumbers((const char**)argv, vNumbers, dNumbers);
-
+    int comparisons = 0;
     clock_t vstart = clock();
-    vNumbers = sortVector(vNumbers);
+    vNumbers = sortVector(vNumbers, comparisons);
     clock_t vend = clock();
     double vectorTime = static_cast<double>(vend - vstart) / CLOCKS_PER_SEC * 1000000; // microseconds
     printContainer(vNumbers);
-
+    std::cout << "Number of comparisons in vector sort: " << comparisons << std::endl;
+    comparisons = 0;
     clock_t dstart = clock();
-    dNumbers = sortDeque(dNumbers);
+    dNumbers = sortDeque(dNumbers, comparisons);
     clock_t dend = clock();
     double dequeTime = static_cast<double>(dend - dstart) / CLOCKS_PER_SEC * 1000000; // microseconds
     printContainer(dNumbers);

@@ -34,7 +34,7 @@ void storeNumbers(const char** argv, std::vector<int> &vNumbers, std::deque<int>
     }
 }
 
-std::vector<int> sortVector(std::vector<int> &vNumbers){
+std::vector<int> sortVector(std::vector<int> &vNumbers, int &comparisons){
     // step 1: make pairs
     if (vNumbers.size() <= 1) {
         return vNumbers;
@@ -63,7 +63,7 @@ std::vector<int> sortVector(std::vector<int> &vNumbers){
     }
 
     // std::cout << std::endl;
-    std::vector<int> mainChain = sortVector(bigNumbers);
+    std::vector<int> mainChain = sortVector(bigNumbers, comparisons);
 
     std::vector<int> smallNumbers;
     for (size_t i = 0; i < pairs.size(); i++) {
@@ -76,7 +76,7 @@ std::vector<int> sortVector(std::vector<int> &vNumbers){
     std::vector<size_t> order = jacobsthalOrder(smallNumbers);
 
     for (size_t i = 0; i < order.size(); i++) {
-        mainChain = insertIntoMainChain(mainChain, smallNumbers[order[i]]);
+        mainChain = insertIntoMainChain(mainChain, smallNumbers[order[i]], comparisons);
     }
     return mainChain;
 }
@@ -110,7 +110,7 @@ std::vector<size_t> jacobsthalOrder(std::vector<int>& smallNumbers) {
     return order;
 }
 
-std::vector<int> insertIntoMainChain(std::vector<int> &mainChain, int value){
+std::vector<int> insertIntoMainChain(std::vector<int> &mainChain, int value, int &comparisons){
     size_t left = 0;
     size_t right = mainChain.size();
     while (left < right) {
@@ -120,14 +120,14 @@ std::vector<int> insertIntoMainChain(std::vector<int> &mainChain, int value){
         } else {
             right = mid;
         }
-
+        comparisons++;
     }
     mainChain.insert(mainChain.begin() + left, value);
     return mainChain;
 }
 
 // DEQUE IMPLEMENTATION
-std::deque<int> sortDeque(std::deque<int> &dNumbers){
+std::deque<int> sortDeque(std::deque<int> &dNumbers, int &comparisons){
       if (dNumbers.size() <= 1) {
         return dNumbers;
     }
@@ -154,7 +154,7 @@ std::deque<int> sortDeque(std::deque<int> &dNumbers){
     }
 
     // std::cout << std::endl;
-    std::deque<int> mainChain = sortDeque(bigNumbers);
+    std::deque<int> mainChain = sortDeque(bigNumbers, comparisons);
 
     std::deque<int> smallNumbers;
     for (size_t i = 0; i < pairs.size(); i++) {
@@ -167,7 +167,7 @@ std::deque<int> sortDeque(std::deque<int> &dNumbers){
     std::deque<size_t> order = jacobsthalOrder(smallNumbers);
 
     for (size_t i = 0; i < order.size(); i++) {
-        mainChain = insertIntoMainChain(mainChain, smallNumbers[order[i]]);
+        mainChain = insertIntoMainChain(mainChain, smallNumbers[order[i]], comparisons);
     }
     return mainChain;
 }
@@ -199,10 +199,10 @@ std::deque<size_t> jacobsthalOrder(std::deque<int>& smallNumbers) {
     return order;
 }
 
-std::deque<int> insertIntoMainChain(std::deque<int> &mainChain, int value){
+std::deque<int> insertIntoMainChain(std::deque<int> &mainChain, int value, int &comparisons){
     size_t left = 0;
     size_t right = mainChain.size();
-    int counter = 0;
+
     while (left < right) {
         size_t mid = left + (right - left) / 2;
         if (mainChain[mid] < value) {
@@ -210,9 +210,8 @@ std::deque<int> insertIntoMainChain(std::deque<int> &mainChain, int value){
         } else {
             right = mid;
         }
-        counter++;
+        comparisons++;
     }
-    std::cout << "Number of iterations in binary search: " << counter << std::endl;
     mainChain.insert(mainChain.begin() + left, value);
     return mainChain;
 }

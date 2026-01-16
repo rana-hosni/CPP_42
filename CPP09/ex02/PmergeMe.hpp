@@ -23,22 +23,22 @@ void printContainer(const T &container) {
 }
 
 // Accept any callable (function pointer or function object) that takes T&
-template<typename Func, typename T>
-double calculateTime(Func sortFunction, T &container) {
-    clock_t start = clock();
-    sortFunction(container);
-    clock_t end = clock();
-    return static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000000; // microseconds
-}
+// template<typename Func, typename T>
+// double calculateTime(Func sortFunction, T &container) {
+//     clock_t start = clock();
+//     sortFunction(container, 0); // assuming sortFunction takes container and an int reference for comparisons
+//     clock_t end = clock();
+//     return static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000000; // microseconds
+// }
 
 
 bool validateArguments(int argc, char **argv);
 void storeNumbers(const char** argv, std::vector<int> &vNumbers, std::deque<int> &dNumbers);
 
-std::vector<int> sortVector(std::vector<int> &vNumbers);
-std::deque<int> sortDeque(std::deque<int> &dNumbers);
-std::vector<int> insertIntoMainChain(std::vector<int> &mainChain, int value);
-std::deque<int> insertIntoMainChain(std::deque<int> &mainChain, int value);
+std::vector<int> sortVector(std::vector<int> &vNumbers, int &comparisons);
+std::deque<int> sortDeque(std::deque<int> &dNumbers, int &comparisons);
+std::vector<int> insertIntoMainChain(std::vector<int> &mainChain, int value, int &comparisons);
+std::deque<int> insertIntoMainChain(std::deque<int> &mainChain, int value, int &comparisons);
 std::vector<size_t> jacobsthalOrder(std::vector<int> &smallNumbers);
 std::deque<size_t> jacobsthalOrder(std::deque<int> &smallNumbers);
 
