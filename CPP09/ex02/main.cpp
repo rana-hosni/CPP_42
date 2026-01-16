@@ -42,18 +42,23 @@ int main(int argc, char **argv)
         return 1;
     }
     storeNumbers((const char**)argv, vNumbers, dNumbers);
-    std::cout << "Before: ";
-    printContainer(vNumbers);
+
+    clock_t vstart = clock();
     vNumbers = sortVector(vNumbers);
-    // sortDeque(dNumbers);
-    // double vectorTime = calculateTime(sortVector, vNumbers);
-    // double dequeTime = calculateTime(sortDeque, dNumbers);
+    clock_t vend = clock();
+    double vectorTime = static_cast<double>(vend - vstart) / CLOCKS_PER_SEC * 1000000; // microseconds
+    printContainer(vNumbers);
+
+    clock_t dstart = clock();
+    dNumbers = sortDeque(dNumbers);
+    clock_t dend = clock();
+    double dequeTime = static_cast<double>(dend - dstart) / CLOCKS_PER_SEC * 1000000; // microseconds
+    printContainer(dNumbers);
     
     // PRINTING THE NUMBERS
-    std::cout << "After:  ";
-    printContainer(vNumbers);
-    // std::cout << "Time to process a range of " << vNumbers.size() << " elements with std::vector : " << vectorTime << " us" << std::endl;
-    // std::cout << "Time to process a range of " << dNumbers.size() << " elements with std::deque  : " << dequeTime << " us" << std::endl;
-    // Further implementation goes here
+
+    std::cout << "Time to process a range of " << vNumbers.size() << " elements with std::vector : " << vectorTime << " us" << std::endl;
+    std::cout << "Time to process a range of " << dNumbers.size() << " elements with std::deque  : " << dequeTime << " us" << std::endl;
+
     return 0;
 }

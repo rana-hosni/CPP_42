@@ -9,6 +9,7 @@
 #include <sstream>
 #include <climits>
 #include <cstdlib>
+#include <ctime>
 
 
 
@@ -21,8 +22,9 @@ void printContainer(const T &container) {
     std::cout << std::endl;
 }
 
-template<typename T>
-double calculateTime(void (*sortFunction)(T &), T &container) {
+// Accept any callable (function pointer or function object) that takes T&
+template<typename Func, typename T>
+double calculateTime(Func sortFunction, T &container) {
     clock_t start = clock();
     sortFunction(container);
     clock_t end = clock();
@@ -32,11 +34,12 @@ double calculateTime(void (*sortFunction)(T &), T &container) {
 
 bool validateArguments(int argc, char **argv);
 void storeNumbers(const char** argv, std::vector<int> &vNumbers, std::deque<int> &dNumbers);
+
 std::vector<int> sortVector(std::vector<int> &vNumbers);
+std::deque<int> sortDeque(std::deque<int> &dNumbers);
 std::vector<int> insertIntoMainChain(std::vector<int> &mainChain, int value);
+std::deque<int> insertIntoMainChain(std::deque<int> &mainChain, int value);
 std::vector<size_t> jacobsthalOrder(std::vector<int> &smallNumbers);
-
-
-
+std::deque<size_t> jacobsthalOrder(std::deque<int> &smallNumbers);
 
 #endif
