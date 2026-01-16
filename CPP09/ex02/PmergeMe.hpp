@@ -37,9 +37,9 @@ void storeNumbers(const char** argv, std::vector<int> &vNumbers, std::deque<int>
 
 std::vector<int> sortVector(std::vector<int> &vNumbers, int &comparisons);
 std::deque<int> sortDeque(std::deque<int> &dNumbers, int &comparisons);
-std::vector<int> insertIntoMainChain(std::vector<int> &mainChain, int value, int &comparisons);
+std::vector<int> insertIntoMainChain(std::vector<int> &mainChain, int value,int orderIndex ,int &comparisons);
 std::deque<int> insertIntoMainChain(std::deque<int> &mainChain, int value, int &comparisons);
-std::vector<size_t> jacobsthalOrder(std::vector<int> &smallNumbers);
+std::vector<int> jacobsthalOrder(std::vector<int> &smallNumbers);
 std::deque<size_t> jacobsthalOrder(std::deque<int> &smallNumbers);
 
 #endif

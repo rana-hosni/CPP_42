@@ -46,7 +46,9 @@ std::vector<int> sortVector(std::vector<int> &vNumbers, int &comparisons){
             pairs.push_back(std::make_pair(vNumbers[i], vNumbers[i + 1]));
         } else {
             pairs.push_back(std::make_pair(vNumbers[i + 1], vNumbers[i]));
+
         }
+        comparisons++;
     }
 
     int leftover = -1;
@@ -73,46 +75,75 @@ std::vector<int> sortVector(std::vector<int> &vNumbers, int &comparisons){
     if (leftover != -1) {
         smallNumbers.push_back(leftover);
     }
-    std::vector<size_t> order = jacobsthalOrder(smallNumbers);
-
+    std::vector<int> order = jacobsthalOrder(smallNumbers);
+    insertIntoMainChain(mainChain, smallNumbers[0], 0, comparisons); // Insert the first small number directly
     for (size_t i = 0; i < order.size(); i++) {
-        mainChain = insertIntoMainChain(mainChain, smallNumbers[order[i]], comparisons);
+        mainChain = insertIntoMainChain(mainChain, smallNumbers[order[i]], order[i], comparisons);
     }
     return mainChain;
 }
 
 // J(n) = J(n-1) + 2*J(n-2)
 
-std::vector<size_t> jacobsthalOrder(std::vector<int>& smallNumbers) {
-    size_t n = smallNumbers.size();
-    std::vector<size_t> order;
+std::vector<int> jacobsthalOrder(std::vector<int>& smallNumbers) {
+    int n = smallNumbers.size();
+    std::vector<int> order;
     if (n == 0) 
         return order;
-    
+    std::cout << "Small numbers for Jacobsthal order: ";
+    printContainer(smallNumbers);
     std::vector<bool> used(n, false);
-    size_t j0 = 0; // J(0)
-    size_t j1 = 1; // J(1)
+
+    int j0 = 0; // J(0)
+    int j1 = 1; // J(1)
     while (j1 < n) {
         if (!used[j1]) {
             order.push_back(j1);
             used[j1] = true;
+            // std::cout << "j1 is" << j1 << " j0 is " << j0 << std::endl;
         }
-        size_t next = j1 + 2 * j0; // J(n) = J(n-1) + 2*J(n-2)
+        // std::cout << "Adding group between j1: " << j1 << " and j0: " << j0 << std::endl;
+        int group = j1 - 1;
+        while (group > j0) {
+            if (!used[group]) {
+                order.push_back(group);
+                used[group] = true;
+            }
+            group--;
+        }
+        int next = j1 + 2 * j0 ; // J(n) = J(n-1) + 2*J(n-2)
         j0 = j1;
         j1 = next;
     }
-    for (size_t i = n; i-- > 0;) {
+    for (int i = n; i-- > j0;) {
+        std::cout << "Final adding of index: " << i << std::endl;
         if (!used[i]) {
             order.push_back(i);
         }
     }
+    // std::cout << "Jacobsthal indices added:-------------------------TEST------------------------" << std::endl;
     // printContainer(order);
+    // std::cout << "---------------------------------------------------------------" << std::endl;
+    
+    // for (int i = order.size(); i-- > 0;) {
+    //     order[i]--;
+    // }
+    std::cout << "Small numbers size : " << smallNumbers.size() << std::endl;
+    std::cout << "Jacobsthal order size : " << order.size() << std::endl;
+
+    std::cout << "Jacobsthal order : ";
+    printContainer(order);
     return order;
 }
 
-std::vector<int> insertIntoMainChain(std::vector<int> &mainChain, int value, int &comparisons){
+std::vector<int> insertIntoMainChain(std::vector<int> &mainChain, int value,int orderIndex ,int &comparisons){
     size_t left = 0;
     size_t right = mainChain.size();
+    // std::cout << "Inserting value " << value << " at order index " << orderIndex << std::endl;
+    if (orderIndex == 0) {
+        mainChain.insert(mainChain.begin(), value);
+        return mainChain;
+    }
     while (left < right) {
         size_t mid = left + (right - left) / 2;
         if (mainChain[mid] < value) {
@@ -207,10 +238,12 @@ std::deque<int> insertIntoMainChain(std::deque<int> &mainChain, int value, int &
         size_t mid = left + (right - left) / 2;
         if (mainChain[mid] < value) {
             left = mid + 1;
+            comparisons++;
         } else {
             right = mid;
+            comparisons++;
         }
-        comparisons++;
+        // comparisons++;
     }
     mainChain.insert(mainChain.begin() + left, value);
     return mainChain;
