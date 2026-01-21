@@ -42,15 +42,15 @@ std::vector<int> sortVector(std::vector<int> &vNumbers, int &comparisons){
     std::vector< std::pair<int, int> > pairs;
 
     for (size_t i = 0; i + 1 < vNumbers.size(); i += 2) {
+        comparisons++;
         if (vNumbers[i] < vNumbers[i + 1]) {
             pairs.push_back(std::make_pair(vNumbers[i], vNumbers[i + 1]));
-            comparisons++;
 
         } else {
-            comparisons++;
             pairs.push_back(std::make_pair(vNumbers[i + 1], vNumbers[i]));
         }
     }
+    std::cout << "total comparisons after pairing: " << comparisons << std::endl;
 
     //DEBUGGING
     std::cout << "-----------------------------------------------------------" << std::endl;
@@ -89,6 +89,9 @@ std::vector<int> sortVector(std::vector<int> &vNumbers, int &comparisons){
             }
         }
     }
+
+    // DEBUGGING OUTPUT
+    std::cout << "-----------------------------------------------------------" << std::endl;
     for (size_t i = 0; i < pairs.size(); i++) {
         std::cout << "pairs are (" << pairs[i].first << ", " << pairs[i].second << ")" << std::endl;
     }
@@ -107,32 +110,50 @@ std::vector<int> sortVector(std::vector<int> &vNumbers, int &comparisons){
         std::cout << smallNumbers[i] << " ";
     }
     std::cout << std::endl;
-
+    std::cout << "-----------------------------------------------------------" << std::endl;
 
     std::vector<int> order = jacobsthalOrder(smallNumbers.size());
-    int index;
-    int lookupIndex;
+
+    PairStruct p;
     for (size_t i = 0; i < order.size(); i++) {
-        // std::cout << "Inserting small number " << smallNumbers[order[i]] << "in index " << index << " into main chain." << std::endl;
-        for (size_t k = 0 ; k < pairs.size(); k++) {
-            if (smallNumbers[order[i]] == pairs[k].first) {
-                lookupIndex = pairs[k].second;
-                break;
-            }
-        }
-        for (int j = 0; j < static_cast<int>(mainChain.size()); j++) {
-            if (mainChain[j] == lookupIndex) {
-                index = j;
-                break;
-            }
-        }
-        std::cout << "Inserting small number " << smallNumbers[order[i]] << " before index " << index << " (which has value " << mainChain[index] << ") into main chain." << std::endl;
-        mainChain = insertIntoMainChain(mainChain, smallNumbers[order[i]], index, comparisons);
+        p = updatePairStructs(mainChain, pairs, smallNumbers[order[i]]);
+        // DEBUGGING OUTPUT
+        std::cout << "-----------------------------------------------------------" << std::endl;
+        std::cout << "Current main chain: ";
+        printContainer(mainChain);
+        std::cout << "Current small number to insert: " << smallNumbers[order[i]] << std::endl;
+        std::cout << "PairStruct to use for insertion: (small: " << p.small << ", big: " << p.big << ", index: " << p.index << ")" << std::endl;
+
+
+
+        std::cout << "Inserting small number " << smallNumbers[order[i]] << " before index " << p.index << " (which has value " << p.big << ") into main chain." << std::endl;
+        mainChain = insertIntoMainChain(mainChain, smallNumbers[order[i]], p.index, comparisons);
     }
+    // int index;
+    // int lookupIndex;
+    // for (size_t i = 0; i < order.size(); i++) {
+    //     // std::cout << "Inserting small number " << smallNumbers[order[i]] << "in index " << index << " into main chain." << std::endl;
+    //     for (size_t k = 0 ; k < pairs.size(); k++) {
+    //         if (smallNumbers[order[i]] == pairs[k].first) {
+    //             lookupIndex = pairs[k].second;
+    //             break;
+    //         }
+    //     }
+    //     for (int j = 0; j < static_cast<int>(mainChain.size()); j++) {
+    //         if (mainChain[j] == lookupIndex) {
+    //             index = j;
+    //             break;
+    //         }
+    //     }
+        // std::cout << "Inserting small number " << smallNumbers[order[i]] << " before index " << index << " (which has value " << mainChain[index] << ") into main chain." << std::endl;
+    //     mainChain = insertIntoMainChain(mainChain, smallNumbers[order[i]], index, comparisons);
+    // }
 
     
     if (leftover != -1) {
+        
         mainChain = insertIntoMainChain(mainChain, leftover, mainChain.size(), comparisons);
+        std::cout << "Inserting leftover small number " << leftover << " at the end of main chain." << std::endl;
     }
 
     return mainChain;
@@ -166,17 +187,45 @@ std::vector<int> jacobsthalOrder(int n){
     return order; 
 }
 
+PairStruct updatePairStructs(std::vector<int> &mainChain, std::vector<std::pair<int, int> > &pairs, int smallValue){
+    PairStruct p;
+    for (size_t i = 0; i < mainChain.size(); i++) {
+        for (size_t j = 0; j < pairs.size(); j++) {
+            if (mainChain[i] == pairs[j].second && pairs[j].first == smallValue) {
+                p.big = pairs[j].second;
+                p.small = pairs[j].first;
+                p.index = i;
+                return p;
+            }
+            else {
+                continue;
+            }
+        }
+    }
+    return p;
+}
 
-// returns insertion position
-std::vector<int> insertIntoMainChain(std::vector<int> &mainChain, int value, size_t upperBoundExclusive, int &comparisons) {
+
+std::vector<int> insertIntoMainChain(std::vector<int> &mainChain, int value, 
+                                     size_t upperBoundExclusive, int &comparisons) {
+    std::cout << "Inserting value " << value << " into main chain up to index " 
+              << upperBoundExclusive << std::endl;
+    
     if (upperBoundExclusive == 0) {
         mainChain.insert(mainChain.begin(), value);
         return mainChain;
     }
+
     size_t left = 0;
-    size_t right = upperBoundExclusive; // search in [0, upperBoundExclusive)
+    size_t right = upperBoundExclusive;
+    int compBefore = comparisons;
+    
     while (left < right) {
         size_t mid = left + (right - left) / 2;
+        if (mainChain[mid] == value) {
+            left = mid;
+            break;  // Early exit on exact match
+        }
         comparisons++;
         if (mainChain[mid] < value) {
             left = mid + 1;
@@ -184,7 +233,9 @@ std::vector<int> insertIntoMainChain(std::vector<int> &mainChain, int value, siz
             right = mid;
         }
     }
+    
     mainChain.insert(mainChain.begin() + left, value);
+    std::cout << "Insertion made " << (comparisons - compBefore) << " comparisons." << std::endl;
     return mainChain;
 }
 

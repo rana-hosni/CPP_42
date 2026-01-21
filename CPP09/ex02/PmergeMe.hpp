@@ -12,6 +12,12 @@
 #include <ctime>
 
 
+struct PairStruct {
+    int small;
+    int big;
+    size_t index; // original index in the input
+};
+
 
 template<typename T>
 void printContainer(const T &container) {
@@ -33,6 +39,7 @@ std::vector<int> insertIntoMainChain(std::vector<int> &mainChain, int value, siz
 std::deque<int> insertIntoMainChain(std::deque<int> &mainChain, int value, int &comparisons);
 std::vector<int> jacobsthalOrder(int n);
 std::deque<size_t> jacobsthalOrder(std::deque<int> &smallNumbers);
+PairStruct updatePairStructs(std::vector<int> &mainChain, std::vector<std::pair<int, int> > &pairs, int smallValue);
 
 
 #endif
