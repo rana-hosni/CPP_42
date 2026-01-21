@@ -89,6 +89,9 @@ std::vector<int> sortVector(std::vector<int> &vNumbers, int &comparisons){
             }
         }
     }
+    if (leftover != -1) {
+        smallNumbers.push_back(leftover);
+    }
 
     // DEBUGGING OUTPUT
     std::cout << "-----------------------------------------------------------" << std::endl;
@@ -116,6 +119,11 @@ std::vector<int> sortVector(std::vector<int> &vNumbers, int &comparisons){
 
     PairStruct p;
     for (size_t i = 0; i < order.size(); i++) {
+        if (smallNumbers[order[i]] == leftover) {
+            std::cout << "Inserting leftover small number " << leftover << " at the end of main chain." << std::endl;
+            mainChain = insertIntoMainChain(mainChain, leftover, mainChain.size(), comparisons);
+            continue;
+        }
         p = updatePairStructs(mainChain, pairs, smallNumbers[order[i]]);
         // DEBUGGING OUTPUT
         std::cout << "-----------------------------------------------------------" << std::endl;
@@ -150,11 +158,11 @@ std::vector<int> sortVector(std::vector<int> &vNumbers, int &comparisons){
     // }
 
     
-    if (leftover != -1) {
+    // if (leftover != -1) {
         
-        mainChain = insertIntoMainChain(mainChain, leftover, mainChain.size(), comparisons);
-        std::cout << "Inserting leftover small number " << leftover << " at the end of main chain." << std::endl;
-    }
+    //     mainChain = insertIntoMainChain(mainChain, leftover, mainChain.size(), comparisons);
+    //     std::cout << "Inserting leftover small number " << leftover << " at the end of main chain." << std::endl;
+    // }
 
     return mainChain;
 }
